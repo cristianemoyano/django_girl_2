@@ -1,0 +1,21 @@
+{% block content %}
+  <h2>Homepage</h2>
+  <p>Hello {{ user.username }}!</p>
+<p>User's name and surname: {{ user.first_name }} {{ user.last_name}}</p>
+<p>Username: {{ user.username }}</p>
+<p>E-mail: {{ user.email }}</p>
+
+{% for entry in all_entries %}
+        <div class="post">
+            ------------------
+<p>PROVIDER: {{ entry.provider }}</p>
+<p>UID: {{ entry.uid }}</p>
+<p>Extra-data: {{ entry.extra_data }}</p>
+            ------------------
+        </div>
+    {% endfor %}
+
+<a href="/accounts/logout">Logout</a>
+{% endblock %}
+
+

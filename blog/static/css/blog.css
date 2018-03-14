@@ -46,4 +46,7 @@ h1, h2, h3, h4 {
 }
 .footer {
   background-color: #ff9400;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
 }
