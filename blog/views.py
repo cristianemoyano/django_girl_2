@@ -10,6 +10,8 @@ from .forms import PostForm
 from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social_django.models import UserSocialAuth
+from django.http.response import HttpResponse
+import requests
 
 def post_list(request):
     posts = Post.objects.filter(
@@ -43,12 +45,48 @@ def post_new(request):
         return render(request, 'blog/post_edit.html', {'form': form})
 
 
+
 def home(request):
-    all_entries = UserSocialAuth.objects.all()
-    user = UserSocialAuth.objects.get(pk=1)
+    #  r = requests.put('http://httpbin.org/put', data = {'key':'value'})
+    #  r = requests.delete('http://httpbin.org/delete')
+    #  r = requests.head('http://httpbin.org/get')
+    #  r = requests.options('http://httpbin.org/get')
+
+
+    token = request.user.social_auth.get(
+        provider=request.session.get('social_auth_last_login_backend')
+    ).access_token
+
+    provider = request.session.get('social_auth_last_login_backend')
+    if provider == 'eventbrite':
+        me = requests.get('https://www.eventbriteapi.com/v3/users/me/?token='+token)
+        events = requests.get('https://www.eventbriteapi.com/v3/users/me/owned_events/?token='+token)
+        i = 0
+        lista = []
+        for event in events.json()['events']:
+            lista.append(event['name']['text'])
+    else:
+        me = ''
+        events = ''
+        lista = []
+
+
+
+    ctx = {
+        'provider': provider,
+        'key': request.session.get('key'),
+        'hash': request.session.get('_auth_user_hash'),
+        'id': request.user.social_auth.get(provider=request.session.get('social_auth_last_login_backend')).uid,
+        'backend': request.session.get('_auth_user_backend'),
+        'token': token,
+        'events': lista,
+
+    }
+
 
     if request.user.is_authenticated():
-        return render(request, 'blog/home.html',{'all_entries': all_entries})
+        return render(request, 'blog/home.html',{'ctx': ctx,'r':me,})
+
 
 # def signup(request):
 #     if request.method == 'POST':

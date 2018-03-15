@@ -5,17 +5,17 @@
 <p>Username: {{ user.username }}</p>
 <p>E-mail: {{ user.email }}</p>
 
-{% for entry in all_entries %}
-        <div class="post">
-            ------------------
-<p>PROVIDER: {{ entry.provider }}</p>
-<p>UID: {{ entry.uid }}</p>
-<p>Extra-data: {{ entry.extra_data }}</p>
-            ------------------
-        </div>
+<p>Provider {{ ctx.provider }}</p>
+<p>UID {{ ctx.id }}</p>
+<p>Token {{ ctx.token }}</p>
+<p>Response {{ r.text }}</p>
+<p>Events {{ ctx.events }}</p>
+
+{% for a in ctx.events %}
+<p>Events {{ a }}</p>
     {% endfor %}
 
-<a href="/accounts/logout">Logout</a>
+<a href="/admin/logout/">Logout</a>
 {% endblock %}
 
 
