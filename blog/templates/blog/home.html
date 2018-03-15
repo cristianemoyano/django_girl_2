@@ -1,6 +1,19 @@
+{% load staticfiles %}
 {% block content %}
-  <h2>Homepage</h2>
-  <p>Hello {{ user.username }}!</p>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <div class="page-header">
+    <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Homepage</h1>
+          <p class="lead text-muted"> Hello {{ user.username }}!</p>
+          <p>
+            <a class="btn btn-primary my-2" href="/admin/logout/">Logout</a>
+
+          </p>
+        </div>
+      </section>
+  <h2></h2>
+<div class="container card text-muted">
 <p>User's name and surname: {{ user.first_name }} {{ user.last_name}}</p>
 <p>Username: {{ user.username }}</p>
 <p>E-mail: {{ user.email }}</p>
@@ -10,12 +23,13 @@
 <p>Token {{ ctx.token }}</p>
 <p>Response {{ r.text }}</p>
 <p>Events {{ ctx.events }}</p>
-
+</div>
 {% for a in ctx.events %}
-<p>Events {{ a }}</p>
+<div class="card mb-4 box-shadow"><div class="card-body"> Events {{ a }}</div></div>
+</div>
     {% endfor %}
 
-<a href="/admin/logout/">Logout</a>
+
 {% endblock %}
 
 
